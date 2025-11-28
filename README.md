@@ -8,7 +8,9 @@ Implementation of the **No-Underrun Sampler (NURS)** for Mallows permutation mod
 - `nurs.py` – Main sampling algorithm with doubling strategy
 - `distance.py` – Distance metric functions (L1, L2, Hamming, Ulam, inversion)
 - `hit_run.py` – Hit-and-Run sampler for L2 distance
-- `tests` –  Contraction bound, Effective Sample Size measurements, Visualization of sampling behavior
+- `Fixed_points` –  Fixed points distributions
+- `Trace Plot` - Trace plot of a few statistics
+- `Index Plot` - Signed index plot for the orbits
 
 ## License
 MIT
