@@ -33,7 +33,7 @@ def invert(perm):
     n = perm.size
     out = np.empty(n, np.int64)
     for i in range(n):
-        out[perm[i]] = i
+        out[int(perm[i])] = i
     return out
 
 
@@ -62,7 +62,7 @@ def lds_len(arr):
     n = arr.size
     neg = np.empty(n, np.int64)
     for i in range(n):
-        neg[i] = -arr[i]
+        neg[i] = -int(arr[i])
     return lis_len(neg)
 
 
@@ -78,7 +78,7 @@ def inv(perm):
     inv_count = 0
     seen = 0
     for v in perm:
-        x = v + 1
+        x = int(v) + 1
         s = 0
         i = x
         while i:
@@ -94,6 +94,21 @@ def inv(perm):
 
 
 @nb.njit(cache=True, fastmath=True)
+def cayley(perm):
+    n = perm.size
+    visited = np.zeros(n, np.uint8)
+    cycles = 0
+    for i in range(n):
+        if visited[i] == 0:
+            cycles += 1
+            j = i
+            while visited[j] == 0:
+                visited[j] = 1
+                j = int(perm[j])
+    return n - cycles
+
+
+@nb.njit(cache=True, fastmath=True)
 def dist(dist_id, perm):
     if dist_id == 0:
         return l2(perm)
@@ -103,8 +118,10 @@ def dist(dist_id, perm):
         return hamming(perm)
     elif dist_id == 3:
         return ulam(perm)
-    else:
+    elif dist_id == 4:
         return inv(perm)
+    else:
+        return cayley(perm)
 
 
 DIST_NAME_TO_ID = {
@@ -112,5 +129,6 @@ DIST_NAME_TO_ID = {
     "L1": 1,
     "Hamming": 2,
     "Ulam": 3,
-    "inv": 4
+    "inv": 4,
+    "Cayley": 5,
 }
